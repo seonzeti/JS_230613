@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <input type="text" id="name">
+    <button id="btn">변경!</button>
+    <img src="https://i.ytimg.com/vi/BVEax12-L4g/maxresdefault.jpg" id="img1" />
+
+    <script>
+        // Step 1. 사진을 세개 구한다 
+        // (외부 주소) 
+
+        // - 기본 사진 
+        // - 조건1 사진
+        // - 조건2 사진 
+
+        // Step 2. 조건에 맞게 사진을 배치
+        // - 1 -> 조건1 사진
+        // - 2 -> 조건2 사진 
+        // - 0 -> 기본 사진 
+        // 2-1) 내가 버튼을 누른다면,
+        // (버튼 요소 가져오고, 클릭이벤트) 
+
+        let btn = document.querySelector('#btn')
+        btn.addEventListener('click', () => {
+            console.log('ck')
+            // 2-2) 인풋 안의 값을 감지해서 
+            let name = document.querySelector('#name').value
+            let img = document.querySelector('#img1')
+
+            console.log('name :', name)
+            console.log('img : ', img.src)
+
+            // 조건에 맞게 배치 
+            if(name === '사나'){
+                img.setAttribute('src','https://cdn.clien.net/web/api/file/F01/11632834/a7607d0e6f2409.jpg?w=780&h=30000')
+            }
+        })
+
+    </script>
+</body>
+
+</html>

@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        @import url("https://fonts.googleapis.com/css?family=Lato:700&display=swap%27");
+
+* {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0 auto;
+}
+
+#wrapper {
+    position: absolute;
+    width: 100%;
+    height: 100%;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+#sliderContainer {
+    position: relative;
+}
+
+#gradient {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -1;
+
+    clip-path: url(#handleClip);
+}
+
+#handle {
+    position: absolute;
+    top: 0;
+    left: 0;
+
+    width: 100%;
+    height: 100%;
+
+    z-index: -1;
+}
+
+#valueBox {
+    position: absolute;
+    top: -52px;
+
+    min-width: 68px;
+
+    padding: 3px;
+
+    background: linear-gradient(330deg, #ffba42 22.58%, #e473c6 77.88%);
+
+    border-radius: 4px;
+}
+
+#valueBoxArrow {
+    position: absolute;
+
+    bottom: -4px;
+    left: calc(50% - 8px);
+
+    -webkit-transform: scale(1);
+    transform: scale(1);
+}
+
+#valueWrapper {
+    width: 100%;
+    height: 100%;
+
+    padding: 4px;
+
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  
+    border-radius: 2px;
+
+    background-color: white;
+}
+
+#value {
+    font-family: "Lato", sans-serif;
+    font-weight: bold;
+    font-size: 24px;
+
+    background: linear-gradient(330deg, #ffba42 22.58%, #e473c6 77.88%);
+
+    background-clip: text;
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+#value > span {
+    vertical-align: top;
+
+    font-size: 16px;
+}
+
+/*
+
+    REMOVE SLIDER STYLE DEFAULTS
+
+*/
+input[type="range"] {
+    -webkit-appearance: none;
+
+    width: 100%;
+    height: 100%;
+
+    background: transparent;
+    outline: none;
+
+    margin: 0;
+
+    z-index: 1;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    border: none;
+}
+
+input[type="range"]:focus {
+    outline: none;
+}
+
+input[type="range"]::-moz-focus-outer {
+    border: 0;
+}
+
+/*
+
+    HANDLE
+
+*/
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+
+    width: 16px;
+    height: 32px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    margin-top: -16px;
+}
+
+/* All the same stuff for Firefox */
+input[type="range"]::-moz-range-thumb {
+    width: 16px;
+    height: 32px;
+
+    background: transparent;
+
+    cursor: pointer;
+
+    border: none;
+
+    margin-top: -16px;
+}
+
+/*
+
+    TRACK
+
+*/
+
+input[type="range"]::-webkit-slider-runnable-track {
+    width: 100%;
+    height: 4px;
+
+    cursor: pointer;
+
+    background: linear-gradient(90deg, #ffba42 0%, #ff6ea9 100%);
+
+    border-radius: 2px;
+}
+
+input[type="range"]:focus::-webkit-slider-runnable-track,
+input[type="range"]:active::-webkit-slider-runnable-track {
+    background: linear-gradient(90deg, #ffba42 0%, #ff6ea9 100%);
+}
+
+input[type="range"]::-moz-range-track {
+    width: 100%;
+    height: 4px;
+
+    cursor: pointer;
+
+    background: linear-gradient(90deg, #ffba42 0%, #ff6ea9 100%);
+
+    border-radius: 2px;
+}
+    </style>
+</head>
+<body>
+    <!--
+
+A slider with a cool handle
+
+Inspired by Eddie Lobanovskiy's designs for sweet.io 
+https://dribbble.com/shots/9450523-Sweet
+
+-->
+<div id="app">
+    <div id="wrapper">
+        <div id="sliderContainer" :style="{ width: width + 'px', height: height + 'px' }">
+            <svg id="gradient" fill="none" xmlns="http://www.w3.org/2000/svg">
+                <rect :width="width" :height="height" fill="url(#paint0_linear)" />
+                <clipPath id="handleClip">
+                    <polygon :points="handlePath" />
+                </clipPath>
+                <defs>
+                    <linearGradient
+                        id="paint0_linear"
+                        x1="0"
+                        y1="0"
+                        x2="288"
+                        y2="0"
+                        gradientUnits="userSpaceOnUse"
+                    >
+                        <stop stop-color="#FFBA42" />
+                        <stop offset="1" stop-color="#FF6EA9" />
+                    </linearGradient>
+                </defs>
+            </svg>
+            <input
+                id="bar"
+                type="range"
+                :min="min"
+                :max="max"
+                step="1"
+                v-model="value"
+                @input="updateValueBoxPosition($event)"
+            />
+            <div id="valueBox" ref="valueBox" :style="{ left: boxLeft + 'px' }">
+                <div id="valueWrapper">
+                    <div id="value">{{ value }}<span>%</span></div>
+                </div>
+                <svg
+                    id="valueBoxArrow"
+                    width="16"
+                    height="7"
+                    viewBox="0 0 16 7"
+                    fill="none"
+                    xmlns="http://www.w3.org/2000/svg"
+                    version="1.1"
+                >
+                    <path
+                        d="M9 6.5C8.34625 7.05368 7.62474 7.08203 7 6.5L0 0H16L9 6.5Z"
+                        fill="white"
+                    />
+                    <path
+                        fill-rule="evenodd"
+                        clip-rule="evenodd"
+                        d="M16 0L9 6.64547C8.4453 7.10631 7.53008 7.1299 7 6.64547L0 0H4L8 3.79741L12 0H16Z"
+                        fill="url(#paint1_linear)"
+                    />
+                    <defs>
+                        <linearGradient
+                            id="paint1_linear"
+                            x1="1.5"
+                            y1="1.42403"
+                            x2="15.9832"
+                            y2="-0.154164"
+                            gradientUnits="userSpaceOnUse"
+                        >
+                            <stop stop-color="#EEAD78" />
+                            <stop offset="1" stop-color="#F2B468" />
+                        </linearGradient>
+                    </defs>
+                </svg>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Twitter link -->
+<a class="twitter" style="position: fixed; left: 20px; bottom: 20px; opacity: 0.2;" href="https://twitter.com/park_narrative" target="_blank"><svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 72 72"><path fill="black" d="M67.812 16.141a26.246 26.246 0 0 1-7.519 2.06 13.134 13.134 0 0 0 5.756-7.244 26.127 26.127 0 0 1-8.313 3.176A13.075 13.075 0 0 0 48.182 10c-7.229 0-13.092 5.861-13.092 13.093 0 1.026.118 2.021.338 2.981-10.885-.548-20.528-5.757-26.987-13.679a13.048 13.048 0 0 0-1.771 6.581c0 4.542 2.312 8.551 5.824 10.898a13.048 13.048 0 0 1-5.93-1.638c-.002.055-.002.11-.002.162 0 6.345 4.513 11.638 10.504 12.84a13.177 13.177 0 0 1-3.449.457c-.846 0-1.667-.078-2.465-.231 1.667 5.2 6.499 8.986 12.23 9.09a26.276 26.276 0 0 1-16.26 5.606A26.21 26.21 0 0 1 4 55.976a37.036 37.036 0 0 0 20.067 5.882c24.083 0 37.251-19.949 37.251-37.249 0-.566-.014-1.134-.039-1.694a26.597 26.597 0 0 0 6.533-6.774z"></path></svg></a>
+
+<script>
+    let app = new Vue({
+    el: "#app",
+    data() {
+        return {
+            width: 300,
+            height: 9,
+            min: 0,
+            max: 100,
+            value: 81,
+            handleWidth: 16,
+            handleHeight: 9,
+            boxLeft: 0
+        };
+    },
+    computed: {
+        percent() {
+            const range = this.max - this.min;
+            const absValue = this.value - this.min;
+
+            return absValue / range;
+        },
+        handlePath() {
+            const leftX = this.percent * (this.width - this.handleWidth);
+            const centerX = leftX + this.handleWidth / 2;
+            const rightX = leftX + this.handleWidth;
+
+            const left = leftX + " " + this.handleHeight;
+            const top = centerX + " " + 0;
+            const right = rightX + " " + this.handleHeight;
+
+            return left + "," + top + "," + right;
+        }
+    },
+    methods: {
+        calcBoxLeft() {
+            const boxRect = this.$refs.valueBox.getBoundingClientRect();
+
+            return (this.percent * (this.width - this.handleWidth)) + this.handleWidth / 2 - boxRect.width / 2;
+        },
+        updateValueBoxPosition() {
+            this.$nextTick(() => {
+                this.boxLeft = this.calcBoxLeft();
+            });
+        }
+    },
+    mounted() {
+        this.updateValueBoxPosition();
+    }
+});
+</script>
+</body>
+</html>

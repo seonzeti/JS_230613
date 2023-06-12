@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <script>
+        // 형변환
+        // (1) 문자를 숫자로 
+        
+        // a. 정수형변환 parseInt("바꿀내용")
+        // b. 실수형변환 parseFloat("바꿀내용")
+        // c. 숫자형변환 Number("바꿀내용")
+
+        let textInt = '123'
+        let textFloat = '1.14'
+        let textNum = '100'
+
+        let num1 = parseInt(textFloat)
+        console.log('정수형변환 : ',num1)
+
+        let num2 = parseFloat(textFloat)
+        console.log('실수형변환 :', num2)
+
+        let num3 = Number(textFloat)
+        console.log('숫자형변환',num3)
+
+        // (2) 숫자를 문자로 
+        // a. number.toString(n) -> n진법으로 변경가능
+        // b. String(number) -> 문자로만 변형 가능
+
+        let number = 10
+        let string = number.toString(2)
+        console.log('toString : ',string)
+
+        let string2 = String(number)
+        console.log('String :',string2)
+
+
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <p>
+        👍<span id="number">0</span>
+     </p>
+     <button id="like">좋아요</button>
+     <button id="hate">싫어요</button>
+
+     <script>
+        // 좋아요 버튼 만들기 실습 
+        // 좋아요 버튼을 눌렀을 때 숫자 값을 1씩 증가 시키고,
+        // 싫어요 버튼을 눌렀을 때 숫자 값을 1씩 감소 시킨다. 
+        // 단, 0 밑으로는 내려가지 않도록 할 것  
+
+        // Step1 
+        // like, hate 인 함수를 각각 생성 
+        // like -> like버튼 클릭 시, 숫자 값을 증가시키는 함수 
+        // hate -> hate 버튼을 클릭 시, 숫자 값을 감소시키는 함수 
+
+        const like = ()=>{
+            console.log('like 함수')
+            let num = document.getElementById('number')
+            console.log(num.innerText)
+            num.innerText = Number(num.innerText)+1
+        }
+        const hate = ()=>{
+            console.log('hate 함수')
+            let num = document.getElementById('number')
+
+            if(num.innerText > 0 ){
+                num.innerText = Number(num.innerText)-1
+            }
+        }
+
+        // Step2
+        // 좋아요 버튼 클릭 -> like 함수 실행 
+        // 싫어요 버튼 클릭 -> hate 함수 실행 
+        document.getElementById('like').addEventListener('click',like)
+        document.getElementById('hate').addEventListener('click',hate)
+
+        // 힌트 ** 
+        // innerHTML, innerText로 가져온 컨텐츠는 문자 형태 
+        // 문자는 연산이 불가능! -> 숫자로 변경 
+     </script>
+  
+</body>
+</html>

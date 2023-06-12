@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <script>
+        // 스크립트 문법은 body 태그 가장 하단
+        // => script태그 안에 작성
+
+        // 1. 출력문 
+        // 1-1 console창에 출력하기 
+        //      (F12 개발자도구 -> console)
+        console.log('콘솔창에 출력하기!')
+        console.error('에러 확인하기!')
+
+        // 1-2 팝업창에 출력하기 
+        alert('팝업창을 통해 출력하기')
+
+        // 2. 입력문 
+
+        // 2-1 확인질문 : confirm 
+        // 확인 or 취소 => 리턴타입 : boolean         
+        // 위 질문에 대한 대답을 console창에 출력
+        console.log(confirm('저녁 드셨나요?'))
+        let dinner = confirm('저녁 드셨나요?') ;
+
+        // 2-2 입력확인문 : prompt
+        // 리턴타입이 무조건 string 
+        // 질문에 대한 대답을 console창에 출력해보자 
+        console.log(prompt('1더하기 2는?')+100)
+
+
+    </script>
+</body>
+</html>
